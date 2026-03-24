@@ -1,0 +1,350 @@
+/* Google Fonts: Poppins & Inter */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Poppins:wght@600;700&display=swap');
+
+:root{
+  --brand:#8E5A5A;
+  --brand2:#b48b8b;
+  --accent:#d2a98e;
+  --text:#6d4c4c;
+  --muted:#fff3f3;
+  --shadow:0 2px 8px rgba(0,0,0,0.08);
+  --radius:16px;
+}
+
+body{
+  font-family:'Inter', Arial, sans-serif;
+  margin:0;
+  padding:0;
+  background:#f7f7f7;
+}
+
+/* Headings */
+h1,h2,h3,h4,h5,h6{
+  font-family:'Poppins', Arial, sans-serif;
+  color:#7b3f00;
+}
+
+/* ✅ Global inputs: consistent sizing (fixes password vs number misalignment) */
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="number"],
+input[type="file"],
+select,
+textarea{
+  width:100%;
+  box-sizing:border-box;
+  padding:10px;
+  margin:10px 0;
+  border:1px solid #ccc;
+  border-radius:5px;
+  font-family:inherit;
+  font-size:1rem;
+}
+
+/* Optional: remove number spinners (keeps inputs visually consistent) */
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button{
+  -webkit-appearance:none;
+  margin:0;
+}
+input[type=number]{ -moz-appearance:textfield; }
+
+/* Buttons */
+button{
+  background:#7b3f00;
+  color:#fff;
+  border:none;
+  padding:10px 20px;
+  border-radius:5px;
+  cursor:pointer;
+  margin-top:10px;
+  font-family:inherit;
+}
+button:hover{
+  background:#a0522d;
+}
+
+/* ✅ Rename old container style to avoid clashing with public_base.html .container */
+.legacy-container{
+  max-width:400px;
+  margin:40px auto;
+  background:#fff;
+  padding:30px 40px;
+  border-radius:10px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.1);
+  text-align:center;
+}
+
+/* Layout helper */
+.form-container{
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+}
+
+/* Flashes */
+.flashes{
+  color:red;
+  list-style:none;
+  padding:0;
+  margin:10px 0;
+}
+
+/* ---------------------------------------
+   Shared rosy glass panel (global reusable)
+---------------------------------------- */
+.glass-panel{
+  background: linear-gradient(135deg, rgba(255,243,243,0.92), rgba(227,202,202,0.82));
+  border: 1px solid rgba(180,139,139,0.35);
+  box-shadow: 0 18px 45px rgba(142,90,90,0.18), 0 2px 8px rgba(0,0,0,0.08);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+}
+.card.glass-panel{
+  background: linear-gradient(135deg, rgba(255,243,243,0.92), rgba(227,202,202,0.82));
+  border: 1px solid rgba(180,139,139,0.35);
+  box-shadow: 0 18px 45px rgba(142,90,90,0.18), 0 2px 8px rgba(0,0,0,0.08);
+}
+/* Optional subtle shine layer (safe) */
+.glass-panel::before{
+  content: "";
+  position: absolute;
+  inset: -40px -30px auto -30px;
+  height: 120px;
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.55), rgba(255,255,255,0) 65%);
+  filter: blur(6px);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* ---------------------------------------
+   Unified Buttons (use everywhere)
+---------------------------------------- */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+
+  border:none;
+  border-radius:12px;
+  padding:12px 16px;
+  font-weight:900;
+  cursor:pointer;
+  transition: transform .12s ease, opacity .2s ease, box-shadow .2s ease;
+  font-family:inherit;
+  text-decoration:none;
+  white-space:nowrap;
+}
+
+.btn:hover{ opacity:0.94; }
+.btn:active{ transform: translateY(1px); }
+.btn[disabled], .btn.disabled{
+  opacity:0.55;
+  cursor:not-allowed;
+  transform:none;
+}
+
+/* Variants */
+.btn-primary{
+  background: linear-gradient(135deg, var(--brand2), var(--brand));
+  color:#fff;
+  box-shadow: 0 10px 18px rgba(142,90,90,0.18);
+}
+
+.btn-outline{
+  background: rgba(255,255,255,0.65);
+  color: var(--brand);
+  border: 2px solid rgba(142,90,90,0.25);
+}
+
+.btn-accent{
+  background: linear-gradient(135deg, rgba(210,169,142,0.95), rgba(180,139,139,0.95));
+  color:#6d4c4c;
+  box-shadow: 0 10px 18px rgba(142,90,90,0.12);
+}
+
+/* ---------------------------------------
+   Header brand (logo + title on the left)
+---------------------------------------- */
+.header-left{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  text-decoration:none;
+  color:inherit;
+}
+
+.brand-logo{
+  width:55px;
+  height:55px;
+  object-fit:contain;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+  border: none;
+}
+
+.brand-text{
+  display:flex;
+  flex-direction:column;
+  line-height:1.1;
+}
+/* ---------------------------------------
+   Username badge (header + pages)
+---------------------------------------- */
+.user-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:6px 12px;
+  border-radius:999px;
+
+  background: rgba(255,255,255,0.16);
+  border: 1px solid rgba(255,255,255,0.28);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.10);
+
+  color:#fff;
+  font-weight:600;
+  letter-spacing:0.3px;
+  line-height:1;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.user-badge::before{
+  content:"✨";
+  font-size:0.95rem;
+  opacity:0.95;
+}
+
+/* Optional: slightly smaller on phones */
+@media (max-width:600px){
+  .user-badge{
+    padding:5px 10px;
+    font-size:0.95rem;
+  }
+}
+/* ---------------------------------------
+   Admin Badge (subtle royal touch)
+---------------------------------------- */
+.admin-badge::before{
+  content:"👑";
+  font-size:0.9rem;
+  margin-right:6px;
+  opacity:0.95;
+}
+
+/* Slightly richer rosy glow for admin */
+@keyframes adminGlow{
+  0%{
+    box-shadow:
+      0 10px 18px rgba(0,0,0,0.10),
+      0 0 0 0 rgba(142,90,90,0.00);
+  }
+  50%{
+    box-shadow:
+      0 10px 18px rgba(0,0,0,0.10),
+      0 0 22px 8px rgba(142,90,90,0.40);
+  }
+  100%{
+    box-shadow:
+      0 10px 18px rgba(0,0,0,0.10),
+      0 0 0 0 rgba(142,90,90,0.00);
+  }
+}
+
+.admin-badge{
+  animation: adminGlow 3s ease-in-out infinite;
+}
+
+/* Sparkle hover (append this under the badge) */
+.user-badge{
+  position: relative;
+  overflow: hidden;
+}
+
+.user-badge::after{
+  content:"";
+  position:absolute;
+  top:-40%;
+  left:-60%;
+  width:60%;
+  height:180%;
+  transform: rotate(20deg);
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0),
+    rgba(255,255,255,0.45),
+    rgba(255,255,255,0)
+  );
+  opacity: 0;
+  pointer-events:none;
+}
+
+.user-badge:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 14px 26px rgba(0,0,0,0.14);
+}
+
+.user-badge:hover::after{
+  opacity: 1;
+  animation: badgeShine 900ms ease forwards;
+}
+
+@keyframes badgeShine{
+  from { left: -60%; }
+  to   { left: 140%; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .user-badge:hover{ transform:none; }
+  .user-badge:hover::after{ animation:none; opacity:0; }
+}
+/* ---------------------------------------
+   Rosy glow when logged in
+---------------------------------------- */
+.user-badge{
+  box-shadow:
+    0 10px 18px rgba(0,0,0,0.10),
+    0 0 0 0 rgba(180,139,139,0); /* rosy base */
+  transition: box-shadow .25s ease, transform .12s ease, opacity .2s ease;
+}
+
+/* soft rosy breathing glow */
+@keyframes badgeGlow{
+  0%{
+    box-shadow:
+      0 10px 18px rgba(0,0,0,0.10),
+      0 0 0 0 rgba(180,139,139,0.00);
+  }
+  50%{
+    box-shadow:
+      0 10px 18px rgba(0,0,0,0.10),
+      0 0 18px 6px rgba(180,139,139,0.35);
+  }
+  100%{
+    box-shadow:
+      0 10px 18px rgba(0,0,0,0.10),
+      0 0 0 0 rgba(180,139,139,0.00);
+  }
+}
+
+.user-badge{
+  animation: badgeGlow 3s ease-in-out infinite;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .user-badge{ animation:none; }
+}
