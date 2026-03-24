@@ -1,0 +1,88 @@
+{% extends "admin_base.html" %}
+
+{% block title %}User Feedback{% endblock %}
+
+{% block content %}
+
+<!-- Top Bar -->
+<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:12px;">
+  <h1 style="margin:0;">User Feedback</h1>
+
+  <a href="{{ url_for('admin_dashboard') }}"
+     style="text-decoration:none;
+            font-weight:800;
+            color:#8E5A5A;
+            background:#fff3f3;
+            padding:10px 14px;
+            border-radius:12px;
+            box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+    ← Back to Dashboard
+  </a>
+</div>
+
+
+<!-- Overview Box -->
+<div class="glass-panel" style="padding:20px; margin-bottom:20px;">
+  <div style="font-size:1.1rem;">
+    <strong>Average Rating:</strong>
+    <span style="color:#f4b400;font-size:1.4rem;">
+      {{ avg_rating }} ⭐
+    </span>
+  </div>
+
+  <div style="color:rgba(109,76,76,0.8);margin-top:5px;">
+    Based on {{ total_feedback }} feedback(s)
+  </div>
+</div>
+
+
+{% if feedbacks %}
+  {% for f in feedbacks %}
+    <div class="glass-panel" style="padding:18px; margin-bottom:16px;">
+
+      <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;">
+        <div>
+          <strong>{{ f["username"] }}</strong>
+          <span style="color:rgba(109,76,76,0.75); font-size:0.85rem;">
+            ({{ f["date"] }})
+          </span>
+        </div>
+
+        <!-- Delete Button -->
+        <form action="{{ url_for('delete_feedback', feedback_id=f['id']) }}"
+              method="POST"
+              data-confirm="delete"
+              data-confirm-title="Delete this feedback?"
+              data-confirm-text="This feedback will be permanently removed."
+              data-confirm-ok="Delete"
+              style="margin:0;">
+
+          <button type="submit"
+                  style="background:#c94c4c;
+                        color:white;
+                        border:none;
+                        padding:6px 12px;
+                        border-radius:8px;
+                        cursor:pointer;">
+            🗑 Delete
+          </button>
+        </form>
+      </div>
+
+      <div style="margin:8px 0; color:#f4b400; font-size:1.2rem;">
+        {% for i in range(f["rating"]) %}
+          ⭐
+        {% endfor %}
+      </div>
+
+      <p style="margin:0; color:#6d4c4c; white-space:pre-wrap;">
+        {{ f["comment"] }}
+      </p>
+
+    </div>
+  {% endfor %}
+{% else %}
+  <p>No feedback submitted yet.</p>
+{% endif %}
+
+{% endblock %}

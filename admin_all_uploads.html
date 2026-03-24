@@ -1,0 +1,64 @@
+{% extends "admin_base.html" %}
+{% block title %}All Uploads{% endblock %}
+
+{% block content %}
+<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+  <h1 style="margin:0;">User Uploads</h1>
+
+  <a href="{{ url_for('admin_dashboard') }}"
+     style="text-decoration:none;font-weight:800;color:#8E5A5A;background:#fff3f3;
+            padding:10px 14px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+    ← Back to Dashboard
+  </a>
+</div>
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <div style="margin-top:14px;background:#fff3f3;border-radius:12px;padding:12px 14px;color:#6d4c4c;font-weight:800;">
+      {{ messages[0] }}
+    </div>
+  {% endif %}
+{% endwith %}
+
+{% if images %}
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-top:14px;">
+    {% for img in images %}
+      <div style="background:#fff;border-radius:12px;padding:10px;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+        <div style="font-weight:800;color:#8E5A5A;margin-bottom:8px;display:flex;justify-content:space-between;gap:10px;align-items:center;">
+          <span>{{ img.username }}</span>
+
+          <a href="{{ img.url }}" target="_blank"
+             style="font-size:0.85rem;font-weight:800;color:#8E5A5A;text-decoration:none;">
+            Open
+          </a>
+        </div>
+
+        <img src="{{ img.url }}"
+             alt="upload"
+             style="width:100%;height:220px;object-fit:cover;border-radius:10px;">
+
+        <form method="POST"
+              action="{{ url_for('admin_delete_any_upload') }}"
+              data-confirm="delete"
+              data-confirm-title="Delete this photo?"
+              data-confirm-text="This photo will be permanently removed."
+              data-confirm-ok="Delete"
+              style="margin-top:10px;">
+
+          <input type="hidden" name="photo_url" value="{{ img.url }}">
+
+          <button type="submit"
+                  style="width:100%;border:none;border-radius:10px;padding:10px 12px;
+                        font-weight:900;cursor:pointer;background:#b94a48;color:#fff;">
+            Delete
+          </button>
+        </form>
+
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <p style="margin-top:12px;">No uploads found.</p>
+{% endif %}
+
+{% endblock %}

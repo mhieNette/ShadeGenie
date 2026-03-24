@@ -1,0 +1,71 @@
+{% extends "admin_base.html" %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<h1>Admin Dashboard</h1>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:10px;">
+
+  <a href="{{ url_for('admin_users') }}"
+     style="background:#fff;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,0.08);
+            padding:18px 16px;text-decoration:none;color:inherit;display:block;">
+    <div style="font-family:'Poppins',sans-serif;color:#8E5A5A;
+                font-size:1.2rem;font-weight:700;margin:0 0 6px 0;">
+      Manage Users
+    </div>
+    <p style="margin:0;color:#6d4c4c;font-size:0.95rem;">
+      View all users and delete accounts.
+    </p>
+  </a>
+
+  <!-- ✅ NEW: All uploads (admin only) -->
+  <a href="{{ url_for('admin_all_uploads') }}"
+     style="background:#fff;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,0.08);
+            padding:18px 16px;text-decoration:none;color:inherit;display:block;">
+    <div style="font-family:'Poppins',sans-serif;color:#8E5A5A;
+                font-size:1.2rem;font-weight:700;margin:0 0 6px 0;">
+      User Uploads
+    </div>
+    <p style="margin:0;color:#6d4c4c;font-size:0.95rem;">
+      View uploaded photos from all users.
+    </p>
+  </a>
+
+  <a href="{{ url_for('admin_shades') }}"
+     style="background:#fff;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,0.08);
+            padding:18px 16px;text-decoration:none;color:inherit;display:block;">
+    <div style="font-family:'Poppins',sans-serif;color:#8E5A5A;
+                font-size:1.2rem;font-weight:700;margin:0 0 6px 0;">
+      Manage Shades
+    </div>
+    <p style="margin:0;color:#6d4c4c;font-size:0.95rem;">
+      Add, edit, or delete foundation shades.
+    </p>
+  </a>
+  
+  <a href="{{ url_for('admin_feedback') }}"
+     style="background:#fff;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,0.08);
+            padding:18px 16px;text-decoration:none;color:inherit;display:block;">
+    <div style="font-family:'Poppins',sans-serif;color:#8E5A5A;
+                font-size:1.2rem;font-weight:700;margin:0 0 6px 0;">
+      User Feedback
+    </div>
+    <p style="margin:0;color:#6d4c4c;font-size:0.95rem;">
+      View ratings and manage user feedback.
+    </p>
+  </a>
+  <a href="{{ url_for('profile') }}"
+     style="background:#fff;border-radius:14px;box-shadow:0 2px 8px rgba(0,0,0,0.08);
+            padding:18px 16px;text-decoration:none;color:inherit;display:block;">
+    <div style="font-family:'Poppins',sans-serif;color:#8E5A5A;
+                font-size:1.2rem;font-weight:700;margin:0 0 6px 0;">
+      Back to Profile
+    </div>
+    <p style="margin:0;color:#6d4c4c;font-size:0.95rem;">
+      Return to your profile page.
+    </p>
+  </a>
+
+</div>
+{% endblock %}

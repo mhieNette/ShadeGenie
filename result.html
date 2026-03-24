@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shade Suggestion - ShadeGenie</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <!-- Google Fonts: Poppins & Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="header">
+        <div class="header-left">
+            <div class="header-title">Shade Genie</div>
+            <div class="header-sub">Find Your Perfect Foundation Shade</div>
+        </div>
+        <div class="header-nav">
+            <span>testuser03</span>
+            <form action="{{ url_for('logout') }}" method="get" style="display:inline;">
+                <button class="logout-btn" type="submit">Logout</button>
+            </form>
+            <a href="/profile">Profile</a>
+            <a href="/profile">Upload Photo</a>
+            <a href="/gallery">Gallery</a>
+            <a href="/browse_shades">Browse Shades</a>
+        </div>
+    </div>
+    <div class="container">
+        <h1>Your Suggested Shades</h1>
+        <p>We suggest the following foundation shades for you:</p>
+        <div style="display:flex;gap:32px;flex-wrap:wrap;">
+            {% for s in suggestions %}
+            <div style="background:#fff3f3;padding:18px 24px;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,0.08);margin-bottom:16px;min-width:220px;">
+                <h2 style="margin-bottom:8px;">{{ s.brand }}</h2>
+                <div style="font-size:1.2rem;color:#8E5A5A;font-weight:bold;">{{ s.shade }}</div>
+            </div>
+            {% endfor %}
+        </div>
+        <img src="{{ image_url }}" alt="Uploaded Photo" style="max-width:300px;margin-top:24px;">
+        <br>
+        <a href="/profile">Try Another Photo</a> |
+        <a href="{{ url_for('logout') }}" >Logout</a>
+    </div>
+    <div class="footer" style="position: fixed; left: 0; bottom: 0; width: 100%; background: #8E5A5A; color: #fff; text-align: center; padding: 16px 0;">
+        &copy; 2025 Shade Genie. All rights reserved.
+    </div>
+</body>
+</html>

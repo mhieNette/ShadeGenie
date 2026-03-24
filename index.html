@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShadeGenie - Login or Signup</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <!-- Google Fonts: Poppins & Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="header">
+        <div class="header-left">
+            <div class="header-title">Shade Genie</div>
+            <div class="header-sub">Find Your Perfect Foundation Shade</div>
+        </div>
+        <div class="header-nav" style="display: flex; align-items: center; gap: 24px;">
+            <span style="color: #e285a1; font-size: 1.1rem; margin: 0 6px;">testuser03</span>
+            <form action="{{ url_for('logout') }}" method="get" style="display:inline; margin:0;">
+                <button class="logout-btn" type="submit">Logout</button>
+            </form>
+            <a href="/profile" style="color: #e7aaaa; text-decoration: none; font-size: 1.1rem; margin: 0 6px;">Profile</a>
+            <a href="/profile" style="color: #e7aaaa; text-decoration: none; font-size: 1.1rem; margin: 0 6px;">Upload Photo</a>
+            <a href="/gallery" style="color: #e7aaaa; text-decoration: none; font-size: 1.1rem; margin: 0 6px;">Gallery</a>
+            <a href="/browse_shades" style="color: #e7aaaa; text-decoration: none; font-size: 1.1rem; margin: 0 6px;">Browse Shades</a>
+        </div>
+    </div>
+    <div class="container">
+        <h1>Welcome to ShadeGenie</h1>
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <ul class="flashes">
+            {% for message in messages %}
+              <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+        <div class="form-container">
+            <form action="/login" method="post">
+                <h2>Login</h2>
+                <input type="text" name="username" placeholder="Username" required><br>
+                <input type="password" name="password" placeholder="Password" required><br>
+                <button type="submit">Login</button>
+            </form>
+            <form action="/signup" method="post">
+                <h2>Sign Up</h2>
+                <input type="text" name="username" placeholder="Username" required><br>
+                <input type="password" name="password" placeholder="Password" required><br>
+                <button type="submit">Sign Up</button>
+            </form>
+        </div>
+    </div>
+    <div class="footer" style="position: fixed; left: 0; bottom: 0; width: 100%; background: #8E5A5A; color: #fff; text-align: center; padding: 16px 0;">
+        &copy; 2025 Shade Genie. All rights reserved.
+    </div>
+</body>
+</html>

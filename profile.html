@@ -1,0 +1,247 @@
+{% extends "public_base.html" %}
+
+{% block title %}Profile - Shade Genie{% endblock %}
+
+{% block container_class %}container-wide{% endblock %}
+
+{% block extra_css %}
+<style>
+  /* ✅ Override base .container (base sets max-width:520px) */
+  .container.container-wide{
+    max-width: 1200px !important;
+    width: 96vw !important;
+    margin: 28px auto 120px !important;
+    padding: 0 16px !important;
+  }
+
+  /* ✅ 2-column layout */
+  .profile-main{
+    display:flex !important;
+    gap:32px;
+    align-items:flex-start;
+  }
+
+  .panel{ padding:32px; }
+
+  .profile-card{
+    width:350px;
+    flex: 0 0 350px;
+    max-width:100%;
+  }
+
+  .right-panel{
+    flex:1;
+    min-width:0;
+  }
+
+  /* ✅ LEFT CARD: avatar + username (YOU WERE MISSING THIS) */
+  .profile-photo-frame{
+    width:180px;
+    height:180px;
+    border-radius:50%;
+    overflow:hidden;
+    margin:0 auto;
+    border:4px solid rgba(180,139,139,0.7);
+    box-shadow:0 10px 28px rgba(142,90,90,0.25);
+    background: rgba(255,255,255,0.25);
+  }
+
+  .profile-photo-frame img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+
+  .profile-username{
+    margin-top:16px;
+    text-align:center;
+    font-size:1.25rem;
+    font-weight:900;
+    color:var(--brand);
+    padding:10px 12px;
+    border-radius:14px;
+    background: rgba(255,255,255,0.35);
+    border: 1px solid rgba(180,139,139,0.25);
+  }
+
+  /* ⭐ Star Rating (YOU WERE MISSING THIS TOO) */
+  .star-rating{
+    direction:rtl;
+    display:inline-flex;
+    font-size:32px;
+  }
+
+  .star-rating input{ display:none; }
+
+  .star-rating label{
+    color:#ddd;
+    cursor:pointer;
+    transition:0.2s;
+  }
+
+  .star-rating label:hover,
+  .star-rating label:hover ~ label{
+    color:#f4b400;
+    transform:scale(1.2);
+  }
+
+  .star-rating input:checked ~ label{
+    color:#f4b400;
+  }
+
+  /* Textarea + counter */
+  textarea{
+    width:100%;
+    min-height:100px;
+    border-radius:10px;
+    border:1px solid #ddd;
+    padding:10px;
+    resize:vertical;
+    font-family:Inter;
+  }
+
+  .char-counter{
+    text-align:right;
+    font-size:0.85rem;
+    color:gray;
+  }
+
+  /* ✅ Mobile */
+  @media (max-width:900px){
+    .profile-main{ flex-direction:column !important; }
+    .profile-card{ width:100%; flex: 1 1 auto; }
+  }
+</style>
+{% endblock %}
+
+{% block header_links %}
+
+  <a href="/profile" class="{% if request.path.startswith('/profile') %}active{% endif %}">Profile</a>
+
+  {% if not is_admin %}
+    <a href="/upload" class="{% if request.path == '/upload' %}active{% endif %}">Upload Photo</a>
+    <a href="/gallery" class="{% if request.path == '/gallery' %}active{% endif %}">Gallery</a>
+    <a href="/browse_shades" class="{% if request.path == '/browse_shades' %}active{% endif %}">Browse Shades</a>
+  {% else %}
+    <a href="/admin" class="{% if request.path.startswith('/admin') %}active{% endif %}">Admin</a>
+  {% endif %}
+
+  <form action="{{ url_for('logout') }}" method="get" style="display:inline;">
+    <button class="logout-btn" type="submit">Logout</button>
+  </form>
+
+{% endblock %}
+
+
+{% block outer_content %}
+<div class="profile-main">
+
+  <!-- LEFT PROFILE CARD -->
+  <div class="panel glass-panel profile-card">
+    <div class="profile-photo-frame">
+      <img src="{{ profile_photo_url }}" alt="Profile Photo">
+    </div>
+
+    <div class="profile-username">
+      {{ session.get('username', '') }}
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="panel glass-panel right-panel">
+
+    {% if not is_admin %}
+
+      <h2 style="margin-bottom:16px; font-family:'Poppins', sans-serif;">
+        Your Saved Suggestions
+      </h2>
+
+      {% if saved_suggestions %}
+        {% for s in saved_suggestions %}
+          <div style="
+            margin:6px 0;
+            padding:6px 12px;
+            background: rgba(255,255,255,0.3);
+            border-radius:12px;
+            font-family:'Poppins', sans-serif;
+            display:flex;
+            justify-content: space-between;
+            align-items: center;
+          ">
+            <span><b>{{ s.brand }}</b> — {{ s.shade }}</span>
+          </div>
+        {% endfor %}
+      {% else %}
+        <div style="
+          margin:6px 0;
+          padding:6px 12px;
+          background: rgba(255,255,255,0.2);
+          border-radius:12px;
+          font-family:'Poppins', sans-serif;
+          color:#555;
+        ">
+          No saved suggestions yet.
+        </div>
+      {% endif %}
+
+      <h2 style="margin-top:24px; margin-bottom:12px; font-family:'Poppins', sans-serif;">
+        Rate Your Experience ⭐
+      </h2>
+
+      <p style="margin-bottom:12px; font-family:'Poppins', sans-serif; color:#333;">
+        Help us improve Shade Genie by leaving a rating and comment.
+      </p>
+
+      <form action="{{ url_for('submit_feedback') }}" method="POST">
+        <div class="star-rating" style="display:flex; flex-direction: row-reverse; justify-content:flex-end; gap:6px; margin-bottom:12px; font-size:24px; cursor:pointer;">
+          <input type="radio" name="rating" value="5" id="star5" required>
+          <label for="star5">★</label>
+
+          <input type="radio" name="rating" value="4" id="star4">
+          <label for="star4">★</label>
+
+          <input type="radio" name="rating" value="3" id="star3">
+          <label for="star3">★</label>
+
+          <input type="radio" name="rating" value="2" id="star2">
+          <label for="star2">★</label>
+
+          <input type="radio" name="rating" value="1" id="star1">
+          <label for="star1">★</label>
+        </div>
+
+        <textarea name="comment" maxlength="500" placeholder="Leave a comment (500 characters max)" required oninput="updateCounter(this)"></textarea>
+
+        <div class="char-counter">
+          <span id="charCount">0</span>/500 characters
+        </div>
+
+        <div style="text-align:right; margin-top:12px;">
+          <button type="submit" class="btn">Submit Feedback</button>
+        </div>
+      </form>
+
+    {% else %}
+
+      <h2>Admin Tools</h2>
+      <a href="{{ url_for('admin_dashboard') }}" class="btn btn-primary">Go to Dashboard</a>
+
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+<div class="footer">
+  &copy; 2025 Shade Genie. All rights reserved.
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function updateCounter(textarea){
+  document.getElementById("charCount").innerText = textarea.value.length;
+}
+</script>
+{% endblock %}

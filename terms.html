@@ -1,0 +1,88 @@
+{% extends "public_base.html" %}
+
+{% block title %}Terms & Conditions - Shade Genie{% endblock %}
+
+{% block header_links %}
+  <a href="{{ url_for('signup_page') }}">Sign up</a>
+  <a href="{{ url_for('login_page') }}">Log in</a>
+{% endblock %}
+
+{% block content %}
+  <h1>Terms & Conditions</h1>
+  <p class="subtitle">
+    Welcome to <b>Shade Genie</b> 💗 Here’s a friendly overview of the rules so everyone stays safe and happy.
+  </p>
+
+  <div class="section">
+    <h2>1) Using the app</h2>
+    <ul>
+      <li>Shade Genie helps suggest foundation shades based on your answers + photo.</li>
+      <li>Results are best-effort suggestions and may not be perfect for everyone.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>2) Uploading photos</h2>
+    <ul>
+      <li>Please upload only your own photo (or a photo you have permission to use).</li>
+      <li>Use a clear, well-lit photo for better results.</li>
+      <li>Don’t upload anything illegal, harmful, or inappropriate.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>3) Privacy & storage</h2>
+    <ul>
+      <li>Your uploaded images are used for shade matching and to show them in your gallery.</li>
+      <li>Admins may view uploaded photos for moderation and system checking.</li>
+      <li>We recommend you avoid uploading sensitive personal information.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>4) Respect & safety</h2>
+    <ul>
+      <li>Please don’t misuse the system or try to access other users’ content.</li>
+      <li>Accounts that abuse the platform may be suspended or removed.</li>
+    </ul>
+  </div>
+
+  <p class="note">
+    By creating an account, you agree to these Terms. If you don’t agree, please don’t use Shade Genie.
+  </p>
+
+  <div class="bottom-link">
+    <a href="{{ url_for('signup_page') }}">← Back to Sign up</a>
+  </div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+  .section{
+    background: var(--muted);
+    border-radius: 14px;
+    padding: 16px;
+    margin: 14px 0;
+    border: 1px solid rgba(180,139,139,0.25);
+    color: var(--text);
+  }
+  .section h2{
+    font-family:'Poppins',sans-serif;
+    color: var(--brand);
+    margin: 0 0 8px 0;
+    font-size: 1.1rem;
+  }
+  ul{
+    margin: 0;
+    padding-left: 18px;
+    line-height: 1.6;
+    color: var(--text);
+  }
+  .note{
+    margin-top: 16px;
+    font-size: 0.95rem;
+    opacity: 0.95;
+    color: var(--text);
+  }
+</style>
+{% endblock %}

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Shade Genie{% endblock %}</title>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css', v='20260211b') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --brand:#8E5A5A;
+      --brand2:#b48b8b;
+      --text:#6d4c4c;
+      --card:#ffffff;
+      --muted:#fff3f3;
+      --shadow:0 2px 8px rgba(0,0,0,0.08);
+      --radius:16px;
+    }
+
+    body{
+      margin:0;
+      font-family:'Inter','Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+      background-image:url('/static/background.png');
+      background-size:cover;
+      background-repeat:no-repeat;
+      background-attachment:fixed;
+    }
+
+    /* Public Header */
+    .header{
+      height:70px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:0 32px;
+      background:var(--brand);
+      color:#fff;
+      box-shadow:var(--shadow);
+    }
+    .header-title{
+      font-family:'Poppins',sans-serif;
+      font-size:2rem;
+      font-weight:700;
+      letter-spacing:1px;
+      line-height:1.1;
+    }
+    .header-sub{
+      font-size:0.95rem;
+      color:#f3e6e6;
+      margin-top:2px;
+    }
+    .header-nav{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+
+    .header-nav a,
+    .header-nav span{
+      color:#fff;
+      text-decoration:none;
+      font-size:1rem;
+    }
+
+    .header-nav a.active{
+      border-bottom:2px solid #fff;
+      padding-bottom:2px;
+    }
+
+    .logout-btn{
+      background:transparent;
+      color:#fff;
+      border:1px solid rgba(255,255,255,0.6);
+      border-radius:8px;
+      padding:6px 14px;
+      font-weight:700;
+      cursor:pointer;
+      transition:0.2s;
+    }
+    .logout-btn:hover{
+      background:rgba(255,255,255,0.12);
+    }
+
+    /* Card */
+    .container{
+      max-width:520px;
+      margin:40px auto 120px;
+      padding:0 16px;
+    }
+    .card{
+      background:rgba(255,255,255,0.92);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:28px 22px;
+    }
+
+    h1{
+      font-family:'Poppins',sans-serif;
+      color:var(--brand);
+      margin:0 0 10px 0;
+      font-size:2rem;
+    }
+    .subtitle{
+      margin:0 0 18px 0;
+      color:var(--text);
+      font-size:0.98rem;
+    }
+
+    label{
+      display:block;
+      margin:10px 0 6px;
+      font-weight:700;
+      color:var(--text);
+    }
+    input{
+      width:100%;
+      padding:12px 12px;
+      border-radius:12px;
+      border:1px solid #e0caca;
+      outline:none;
+      font-size:1rem;
+      background:#fff;
+    }
+    input:focus{
+      border-color:var(--brand2);
+      box-shadow:0 0 0 3px rgba(180,139,139,0.18);
+    }
+
+    .auth-btn{
+      width:100%;
+      margin-top:16px;
+      border:none;
+      border-radius:12px;
+      padding:12px 14px;
+      background:var(--brand2);
+      color:#fff;
+      font-weight:900;
+      cursor:pointer;
+      transition:0.2s;
+      font-size:1rem;
+    }
+    .btn:hover{ opacity:0.92; }
+
+    .flash{
+      margin:14px 0 0 0;
+      background:var(--muted);
+      border-radius:12px;
+      padding:12px 14px;
+      color:var(--text);
+    }
+
+    .bottom-link{
+      margin-top:14px;
+      color:var(--text);
+      font-size:0.98rem;
+    }
+    .bottom-link a{
+      color:var(--brand);
+      font-weight:800;
+      text-decoration:none;
+    }
+    .bottom-link a:hover{ text-decoration:underline; }
+
+    .footer{
+      position:fixed;
+      left:0;
+      bottom:0;
+      width:100%;
+      background:var(--brand);
+      color:#fff;
+      text-align:center;
+      padding:14px 0;
+    }
+  </style>
+
+  {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+  <div class="header">
+    <!-- LEFT: logo + title -->
+    <div class="header-left">
+      <a href="{{ url_for('profile') }}" class="brand">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Shade Genie Logo" class="brand-logo">
+        <div class="brand-text">
+          <div class="header-title">Shade Genie</div>
+          <div class="header-sub">Find Your Perfect Foundation Shade</div>
+        </div>
+      </a>
+    </div>
+
+    <!-- RIGHT: nav links -->
+    <div class="header-nav">
+
+      {% if session.get('username') %}
+        <span class="user-badge {% if is_admin %}admin-badge{% endif %}">
+          {{ session['username'] }}
+        </span>
+      {% endif %}
+
+
+      {% block header_links %}{% endblock %}
+
+    </div>
+
+  </div>
+
+  <div class="container {% block container_class %}{% endblock %}">
+  {% block outer_content %}
+    <div class="card glass-panel">
+      {% block content %}{% endblock %}
+
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <div class="flash">
+            <ul style="margin:0;padding-left:18px;">
+              {% for m in messages|unique %}
+                <li>{{ m }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+      {% endwith %}
+    </div>
+  {% endblock %}
+</div>
+
+
+  <div class="footer">
+    &copy; 2025 Shade Genie. All rights reserved.
+  </div>
+
+  {% block extra_js %}{% endblock %}
+  {% include "_confirm_modal.html" %}
+</body>
+</html>
